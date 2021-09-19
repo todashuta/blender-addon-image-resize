@@ -23,7 +23,7 @@ import bpy
 bl_info = {
     "name": "Image Resize",
     "author": "todashuta",
-    "version": (1, 1, 0),
+    "version": (1, 2, 0),
     "blender": (2, 80, 0),
     "location": "Image Editor > Sidebar > Tool > Image Resize",
     "description": "",
@@ -163,6 +163,7 @@ class IMAGE_RESIZE_OT_main(bpy.types.Operator):
         image = context.space_data.image
         width, height = scene.image_resize_addon_width, scene.image_resize_addon_height
         image.scale(width, height)
+        bpy.ops.image.resize()
 
         return {"FINISHED"}
 
