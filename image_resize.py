@@ -23,7 +23,7 @@ import bpy
 bl_info = {
     "name": "Image Resize",
     "author": "todashuta",
-    "version": (1, 0, 0),
+    "version": (1, 1, 0),
     "blender": (2, 80, 0),
     "location": "Image Editor > Sidebar > Tool > Image Resize",
     "description": "",
@@ -32,6 +32,86 @@ bl_info = {
     "tracker_url": "",
     "category": "Image"
 }
+
+
+class IMAGE_RESIZE_OT_width_mul2(bpy.types.Operator):
+    bl_idname = "image.resize_ex_width_mul2"
+    bl_label = "*2"
+    bl_description = "*2"
+
+    @classmethod
+    def poll(cls, context):
+        if hasattr(context.space_data, "image"):
+            if context.space_data.image is not None:
+                return True
+        return False
+
+    def execute(self, context):
+        scene = context.scene
+        image = context.space_data.image
+        scene.image_resize_addon_width = scene.image_resize_addon_width * 2
+
+        return {"FINISHED"}
+
+
+class IMAGE_RESIZE_OT_height_mul2(bpy.types.Operator):
+    bl_idname = "image.resize_ex_height_mul2"
+    bl_label = "*2"
+    bl_description = "*2"
+
+    @classmethod
+    def poll(cls, context):
+        if hasattr(context.space_data, "image"):
+            if context.space_data.image is not None:
+                return True
+        return False
+
+    def execute(self, context):
+        scene = context.scene
+        image = context.space_data.image
+        scene.image_resize_addon_height = scene.image_resize_addon_height * 2
+
+        return {"FINISHED"}
+
+
+class IMAGE_RESIZE_OT_width_div2(bpy.types.Operator):
+    bl_idname = "image.resize_ex_width_div2"
+    bl_label = "/2"
+    bl_description = "/2"
+
+    @classmethod
+    def poll(cls, context):
+        if hasattr(context.space_data, "image"):
+            if context.space_data.image is not None:
+                return True
+        return False
+
+    def execute(self, context):
+        scene = context.scene
+        image = context.space_data.image
+        scene.image_resize_addon_width = scene.image_resize_addon_width / 2
+
+        return {"FINISHED"}
+
+
+class IMAGE_RESIZE_OT_height_div2(bpy.types.Operator):
+    bl_idname = "image.resize_ex_height_div2"
+    bl_label = "/2"
+    bl_description = "/2"
+
+    @classmethod
+    def poll(cls, context):
+        if hasattr(context.space_data, "image"):
+            if context.space_data.image is not None:
+                return True
+        return False
+
+    def execute(self, context):
+        scene = context.scene
+        image = context.space_data.image
+        scene.image_resize_addon_height = scene.image_resize_addon_height / 2
+
+        return {"FINISHED"}
 
 
 class IMAGE_RESIZE_OT_getcurrentsize(bpy.types.Operator):
@@ -87,7 +167,7 @@ class IMAGE_RESIZE_OT_main(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class IMAGE_RESIZE_OT_panel(bpy.types.Panel):
+class IMAGE_RESIZE_PT_panel(bpy.types.Panel):
     bl_label = "Image Resize"
     bl_space_type = "IMAGE_EDITOR"
     bl_region_type = "UI"
@@ -97,15 +177,25 @@ class IMAGE_RESIZE_OT_panel(bpy.types.Panel):
         scene = context.scene
         layout = self.layout
         layout.operator(IMAGE_RESIZE_OT_getcurrentsize.bl_idname)
-        layout.prop(scene, "image_resize_addon_width")
-        layout.prop(scene, "image_resize_addon_height")
+        split = layout.split(factor=0.6)
+        split.prop(scene, "image_resize_addon_width")
+        split.operator(IMAGE_RESIZE_OT_width_div2.bl_idname, text="/2")
+        split.operator(IMAGE_RESIZE_OT_width_mul2.bl_idname, text="*2")
+        split = layout.split(factor=0.6)
+        split.prop(scene, "image_resize_addon_height")
+        split.operator(IMAGE_RESIZE_OT_height_div2.bl_idname, text="/2")
+        split.operator(IMAGE_RESIZE_OT_height_mul2.bl_idname, text="*2")
         layout.operator(IMAGE_RESIZE_OT_main.bl_idname)
 
 
 classes = [
-    IMAGE_RESIZE_OT_getcurrentsize,
-    IMAGE_RESIZE_OT_main,
-    IMAGE_RESIZE_OT_panel,
+        IMAGE_RESIZE_OT_width_mul2,
+        IMAGE_RESIZE_OT_height_mul2,
+        IMAGE_RESIZE_OT_width_div2,
+        IMAGE_RESIZE_OT_height_div2,
+        IMAGE_RESIZE_OT_getcurrentsize,
+        IMAGE_RESIZE_OT_main,
+        IMAGE_RESIZE_PT_panel,
 ]
 
 
