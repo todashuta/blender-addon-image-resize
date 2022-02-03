@@ -17,13 +17,10 @@
 # ##### END GPL LICENSE BLOCK #####
 
 
-import bpy
-
-
 bl_info = {
     "name": "Image Resize",
     "author": "todashuta",
-    "version": (1, 2, 0),
+    "version": (1, 3, 0),
     "blender": (2, 80, 0),
     "location": "Image Editor > Sidebar > Tool > Image Resize",
     "description": "",
@@ -34,10 +31,24 @@ bl_info = {
 }
 
 
+import bpy
+import math
+
+
+def next_power_of_2(x):
+    return 1 if x == 0 else 2**math.ceil(math.log2(x))
+
+
+def previous_power_of_2(x):
+    return 1 if x == 0 else 2**math.floor(math.log2(x))
+
+
 class IMAGE_RESIZE_OT_width_mul2(bpy.types.Operator):
     bl_idname = "image.resize_ex_width_mul2"
     bl_label = "*2"
     bl_description = "*2"
+
+    shift_key_down = False
 
     @classmethod
     def poll(cls, context):
@@ -46,10 +57,17 @@ class IMAGE_RESIZE_OT_width_mul2(bpy.types.Operator):
                 return True
         return False
 
+    def invoke(self, context, event):
+        self.shift_key_down = event.shift
+        return self.execute(context)
+
     def execute(self, context):
         scene = context.scene
         image = context.space_data.image
-        scene.image_resize_addon_width = scene.image_resize_addon_width * 2
+        if self.shift_key_down:
+            scene.image_resize_addon_width = next_power_of_2(scene.image_resize_addon_width)
+        else:
+            scene.image_resize_addon_width = scene.image_resize_addon_width * 2
 
         return {"FINISHED"}
 
@@ -59,6 +77,8 @@ class IMAGE_RESIZE_OT_height_mul2(bpy.types.Operator):
     bl_label = "*2"
     bl_description = "*2"
 
+    shift_key_down = False
+
     @classmethod
     def poll(cls, context):
         if hasattr(context.space_data, "image"):
@@ -66,10 +86,17 @@ class IMAGE_RESIZE_OT_height_mul2(bpy.types.Operator):
                 return True
         return False
 
+    def invoke(self, context, event):
+        self.shift_key_down = event.shift
+        return self.execute(context)
+
     def execute(self, context):
         scene = context.scene
         image = context.space_data.image
-        scene.image_resize_addon_height = scene.image_resize_addon_height * 2
+        if self.shift_key_down:
+            scene.image_resize_addon_height = next_power_of_2(scene.image_resize_addon_height)
+        else:
+            scene.image_resize_addon_height = scene.image_resize_addon_height * 2
 
         return {"FINISHED"}
 
@@ -79,6 +106,8 @@ class IMAGE_RESIZE_OT_width_div2(bpy.types.Operator):
     bl_label = "/2"
     bl_description = "/2"
 
+    shift_key_down = False
+
     @classmethod
     def poll(cls, context):
         if hasattr(context.space_data, "image"):
@@ -86,10 +115,17 @@ class IMAGE_RESIZE_OT_width_div2(bpy.types.Operator):
                 return True
         return False
 
+    def invoke(self, context, event):
+        self.shift_key_down = event.shift
+        return self.execute(context)
+
     def execute(self, context):
         scene = context.scene
         image = context.space_data.image
-        scene.image_resize_addon_width = scene.image_resize_addon_width / 2
+        if self.shift_key_down:
+            scene.image_resize_addon_width = previous_power_of_2(scene.image_resize_addon_width)
+        else:
+            scene.image_resize_addon_width = scene.image_resize_addon_width / 2
 
         return {"FINISHED"}
 
@@ -99,6 +135,8 @@ class IMAGE_RESIZE_OT_height_div2(bpy.types.Operator):
     bl_label = "/2"
     bl_description = "/2"
 
+    shift_key_down = False
+
     @classmethod
     def poll(cls, context):
         if hasattr(context.space_data, "image"):
@@ -106,10 +144,17 @@ class IMAGE_RESIZE_OT_height_div2(bpy.types.Operator):
                 return True
         return False
 
+    def invoke(self, context, event):
+        self.shift_key_down = event.shift
+        return self.execute(context)
+
     def execute(self, context):
         scene = context.scene
         image = context.space_data.image
-        scene.image_resize_addon_height = scene.image_resize_addon_height / 2
+        if self.shift_key_down:
+            scene.image_resize_addon_height = previous_power_of_2(scene.image_resize_addon_height)
+        else:
+            scene.image_resize_addon_height = scene.image_resize_addon_height / 2
 
         return {"FINISHED"}
 
