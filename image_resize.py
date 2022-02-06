@@ -20,7 +20,7 @@
 bl_info = {
     "name": "Image Resize",
     "author": "todashuta",
-    "version": (1, 3, 1),
+    "version": (1, 3, 2),
     "blender": (2, 80, 0),
     "location": "Image Editor > Sidebar > Tool > Image Resize",
     "description": "",
