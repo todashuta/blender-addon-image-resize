@@ -31,8 +31,21 @@ bl_info = {
 }
 
 
+translation_dict = {
+        "en_US": {
+            ("*", "Resize Image"): "Resize Image",
+            ("*", "Get Current Size"): "Get Current Size",
+        },
+        "ja_JP": {
+            ("*", "Resize Image"): "画像をリサイズ",
+            ("*", "Get Current Size"): "現在の幅と高さを取得",
+        },
+}
+
+
 import bpy
 import math
+from bpy.app import translations
 
 
 def next_power_of_2(x):
@@ -252,8 +265,12 @@ def register():
     bpy.types.Scene.image_resize_addon_width  = bpy.props.IntProperty(name="Width")
     bpy.types.Scene.image_resize_addon_height = bpy.props.IntProperty(name="Height")
 
+    translations.register(__name__, translation_dict)
+
 
 def unregister():
+    translations.unregister(__name__)
+
     if hasattr(bpy.types.Scene, "image_resize_addon_width"):
         del bpy.types.Scene.image_resize_addon_width
     if hasattr(bpy.types.Scene, "image_resize_addon_height"):
