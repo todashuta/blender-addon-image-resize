@@ -31,6 +31,18 @@ bl_info = {
 }
 
 
+translation_dict = {
+        "en_US": {
+            ("Operator", "Resize Image"):     "Resize Image",
+            ("Operator", "Get Current Size"): "Get Current Size",
+        },
+        "ja_JP": {
+            ("Operator", "Resize Image"):     "画像をリサイズ",
+            ("Operator", "Get Current Size"): "現在の幅と高さを取得",
+        },
+}
+
+
 import bpy
 import math
 
@@ -252,8 +264,12 @@ def register():
     bpy.types.Scene.image_resize_addon_width  = bpy.props.IntProperty(name="Width")
     bpy.types.Scene.image_resize_addon_height = bpy.props.IntProperty(name="Height")
 
+    bpy.app.translations.register(__name__, translation_dict)
+
 
 def unregister():
+    bpy.apps.translations.unregister(__name__)
+
     if hasattr(bpy.types.Scene, "image_resize_addon_width"):
         del bpy.types.Scene.image_resize_addon_width
     if hasattr(bpy.types.Scene, "image_resize_addon_height"):
