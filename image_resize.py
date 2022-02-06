@@ -20,7 +20,7 @@
 bl_info = {
     "name": "Image Resize",
     "author": "todashuta",
-    "version": (1, 3, 0),
+    "version": (1, 3, 1),
     "blender": (2, 80, 0),
     "location": "Image Editor > Sidebar > Tool > Image Resize",
     "description": "",
@@ -187,8 +187,8 @@ class IMAGE_RESIZE_OT_getcurrentsize(bpy.types.Operator):
 
 class IMAGE_RESIZE_OT_main(bpy.types.Operator):
     bl_idname = "image.resize_ex_main"
-    bl_label = "Image Resize"
-    bl_description = "Image Resize"
+    bl_label = "Resize Image"
+    bl_description = "Resize Image"
 
     @classmethod
     def poll(cls, context):
