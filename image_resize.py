@@ -20,7 +20,7 @@
 bl_info = {
     "name": "Image Resize",
     "author": "todashuta",
-    "version": (1, 3, 2),
+    "version": (1, 3, 3),
     "blender": (2, 80, 0),
     "location": "Image Editor > Sidebar > Tool > Image Resize",
     "description": "",
@@ -268,7 +268,7 @@ def register():
 
 
 def unregister():
-    bpy.apps.translations.unregister(__name__)
+    bpy.app.translations.unregister(__name__)
 
     if hasattr(bpy.types.Scene, "image_resize_addon_width"):
         del bpy.types.Scene.image_resize_addon_width
