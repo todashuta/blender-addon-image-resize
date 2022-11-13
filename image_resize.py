@@ -20,7 +20,7 @@
 bl_info = {
     "name": "Image Resize",
     "author": "todashuta",
-    "version": (1, 3, 3),
+    "version": (1, 3, 4),
     "blender": (2, 80, 0),
     "location": "Image Editor > Sidebar > Tool > Image Resize",
     "description": "",
@@ -137,7 +137,7 @@ class IMAGE_RESIZE_OT_width_div2(bpy.types.Operator):
         if self.shift_key_down:
             scene.image_resize_addon_width = previous_power_of_2(scene.image_resize_addon_width)
         else:
-            scene.image_resize_addon_width = scene.image_resize_addon_width / 2
+            scene.image_resize_addon_width = scene.image_resize_addon_width // 2
 
         return {"FINISHED"}
 
@@ -166,7 +166,7 @@ class IMAGE_RESIZE_OT_height_div2(bpy.types.Operator):
         if self.shift_key_down:
             scene.image_resize_addon_height = previous_power_of_2(scene.image_resize_addon_height)
         else:
-            scene.image_resize_addon_height = scene.image_resize_addon_height / 2
+            scene.image_resize_addon_height = scene.image_resize_addon_height // 2
 
         return {"FINISHED"}
 
