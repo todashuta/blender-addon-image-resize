@@ -20,7 +20,7 @@
 bl_info = {
     "name": "Image Resize",
     "author": "todashuta",
-    "version": (1, 3, 4),
+    "version": (1, 4, 0),
     "blender": (2, 80, 0),
     "location": "Image Editor > Sidebar > Tool > Image Resize",
     "description": "",
@@ -202,6 +202,8 @@ class IMAGE_RESIZE_OT_main(bpy.types.Operator):
     bl_label = "Resize Image"
     bl_description = "Resize Image"
 
+    shift_key_down = False
+
     @classmethod
     def poll(cls, context):
         #for area in context.screen.areas:
@@ -218,11 +220,17 @@ class IMAGE_RESIZE_OT_main(bpy.types.Operator):
     def execute(self, context):
         scene = context.scene
         image = context.space_data.image
+        if self.shift_key_down:
+            image.reload()
         width, height = scene.image_resize_addon_width, scene.image_resize_addon_height
         image.scale(width, height)
         bpy.ops.image.resize()
 
         return {"FINISHED"}
+
+    def invoke(self, context, event):
+        self.shift_key_down = event.shift
+        return self.execute(context)
 
 
 class IMAGE_RESIZE_PT_panel(bpy.types.Panel):
